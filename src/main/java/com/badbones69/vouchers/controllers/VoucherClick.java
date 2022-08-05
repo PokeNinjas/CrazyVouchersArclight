@@ -1,4 +1,5 @@
 package com.badbones69.vouchers.controllers;
+
 import com.badbones69.vouchers.Methods;
 import com.badbones69.vouchers.api.FileManager;
 import com.badbones69.vouchers.api.CrazyManager;
@@ -38,7 +39,7 @@ public class VoucherClick implements Listener {
         Player player = e.getPlayer();
         Action action = e.getAction();
 
-        if (e.getHand() == EquipmentSlot.OFF_HAND && e.getHand() != null && Version.isAtLeast(Version.v1_9_R1)) {
+        if (e.getHand() == EquipmentSlot.OFF_HAND && e.getHand() != null && Version.isNewer(Version.v1_8_R3)) {
             Voucher voucher = CrazyManager.getVoucherFromItem(player.getInventory().getItemInOffHand());
 
             if (voucher != null && !voucher.isEdible()) {
