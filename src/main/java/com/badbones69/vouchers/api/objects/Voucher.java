@@ -78,8 +78,8 @@ public class Voucher {
         .setMaterial(config.getString(path + "Item", "Stone"))
         .setName(config.getString(path + "Name", ""))
         .setLore(config.getStringList(path + "Lore"))
-        .setPlayerName(config.getString(path + "Player"))
-        .setFlagsFromStrings(config.getStringList(path + "Flags"));
+        .setPlayer(config.getString(path + "Player"))
+        .addItemFlags(config.getStringList(path + "Flags"));
         this.glowing = config.getBoolean(path + "Glowing");
 
         if (itemBuilder.getName().toLowerCase().contains("%arg%")) {

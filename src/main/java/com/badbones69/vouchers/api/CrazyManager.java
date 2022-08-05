@@ -1,9 +1,11 @@
 package com.badbones69.vouchers.api;
 
 import com.badbones69.vouchers.Vouchers;
+import com.badbones69.vouchers.api.enums.Version;
 import com.badbones69.vouchers.api.objects.Voucher;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import com.badbones69.vouchers.api.objects.VoucherCode;
+import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,6 +19,13 @@ public class CrazyManager {
      * The Vouchers plugin.
      */
     private Vouchers plugin;
+
+    /**
+     * True if using 1.13+ material names and false if using lower versions.
+     */
+    private boolean useNewMaterial;
+
+    private boolean useNewSounds;
 
     /**
      * Get the Vouchers Plugin.
@@ -61,6 +70,9 @@ public class CrazyManager {
     public CrazyManager load() {
         vouchers.clear();
         voucherCodes.clear();
+
+        useNewMaterial = Version.isNewer(Version.v1_12_R1);
+        useNewSounds = Version.isAtLeast(Version.v1_9_R1);
 
         // Used for when wanting to put in fake vouchers.
         // for(int i = 1; i <= 400; i++) vouchers.add(new Voucher(i));
@@ -189,6 +201,20 @@ public class CrazyManager {
 
         return newString;
     }
+
+    public boolean useNewMaterial() {
+        return useNewMaterial;
+    }
+
+    /**
+     * Get the correct sound for the version of minecraft.
+     * @param newSound The sound from 1.9+
+     * @param oldSound The sound from 1.8.8-
+     * @return The Sound object of the current minecraft version.
+     */
+    public Sound getSound(String newSound, String oldSound) {
+        return Sound.valueOf(useNewSounds ? newSound : oldSound);
+    }
     
     private static boolean usesRandom(String string) {
         return string.toLowerCase().contains("%random%:");
@@ -202,5 +228,4 @@ public class CrazyManager {
             return min;
         }
     }
-
 }
