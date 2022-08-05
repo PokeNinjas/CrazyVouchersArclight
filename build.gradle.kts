@@ -1,6 +1,5 @@
 plugins {
     java
-    idea
 
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
@@ -8,13 +7,6 @@ plugins {
 group = "com.badbones69.vouchers"
 version = "1.9.11-SNAPSHOT"
 description = "Make Custom Vouchers just for your server!"
-
-idea {
-    module {
-        isDownloadJavadoc = true
-        isDownloadSources = true
-    }
-}
 
 repositories {
     mavenCentral()
