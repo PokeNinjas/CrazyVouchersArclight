@@ -92,7 +92,7 @@ public class VoucherClick implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onCrafts(CraftItemEvent e) {
+    public void onCraftItem(CraftItemEvent e) {
         Player player = (Player) e.getWhoClicked();
         for (ItemStack itemStack : e.getInventory().getContents()) {
             Voucher voucher = CrazyManager.getVoucherFromItem(itemStack);
