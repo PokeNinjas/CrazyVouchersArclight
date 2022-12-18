@@ -1,8 +1,8 @@
-package com.badbones69.vouchers.api.objects;
+package me.badbones69.vouchers.api.objects;
 
-import com.badbones69.vouchers.Methods;
-import com.badbones69.vouchers.api.CrazyManager;
-import com.badbones69.vouchers.api.enums.Version;
+import me.badbones69.vouchers.Methods;
+import me.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.api.enums.Version;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

@@ -1,7 +1,6 @@
-package com.badbones69.vouchers.api.objects;
+package me.badbones69.vouchers.api.objects;
 
-import com.badbones69.vouchers.api.CrazyManager;
-import org.bukkit.Bukkit;
+import me.badbones69.vouchers.api.CrazyManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Skull;

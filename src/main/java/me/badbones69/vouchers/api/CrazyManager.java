@@ -1,10 +1,10 @@
-package com.badbones69.vouchers.api;
+package me.badbones69.vouchers.api;
 
-import com.badbones69.vouchers.Vouchers;
-import com.badbones69.vouchers.api.enums.Version;
-import com.badbones69.vouchers.api.objects.Voucher;
+import me.badbones69.vouchers.Vouchers;
+import me.badbones69.vouchers.api.enums.Version;
+import me.badbones69.vouchers.api.objects.Voucher;
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import com.badbones69.vouchers.api.objects.VoucherCode;
+import me.badbones69.vouchers.api.objects.VoucherCode;
 import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;

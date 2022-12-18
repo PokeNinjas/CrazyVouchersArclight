@@ -1,9 +1,9 @@
-package com.badbones69.vouchers.api.objects;
+package me.badbones69.vouchers.api.objects;
 
-import com.badbones69.vouchers.Methods;
-import com.badbones69.vouchers.api.CrazyManager;
-import com.badbones69.vouchers.api.FileManager;
-import com.badbones69.vouchers.api.enums.Messages;
+import me.badbones69.vouchers.Methods;
+import me.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.api.FileManager;
+import me.badbones69.vouchers.api.enums.Messages;
 import org.bukkit.Color;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;

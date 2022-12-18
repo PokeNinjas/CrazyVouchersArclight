@@ -1,15 +1,15 @@
-package com.badbones69.vouchers.commands;
+package me.badbones69.vouchers.commands;
 
-import com.badbones69.vouchers.Methods;
-import com.badbones69.vouchers.api.objects.ItemBuilder;
-import com.badbones69.vouchers.api.objects.Voucher;
-import com.badbones69.vouchers.controllers.GUI;
-import com.badbones69.vouchers.api.FileManager;
-import com.badbones69.vouchers.api.FileManager.Files;
-import com.badbones69.vouchers.api.CrazyManager;
-import com.badbones69.vouchers.api.enums.Messages;
-import com.badbones69.vouchers.api.events.RedeemVoucherCodeEvent;
-import com.badbones69.vouchers.api.objects.VoucherCode;
+import me.badbones69.vouchers.Methods;
+import me.badbones69.vouchers.api.objects.ItemBuilder;
+import me.badbones69.vouchers.api.objects.Voucher;
+import me.badbones69.vouchers.controllers.GUI;
+import me.badbones69.vouchers.api.FileManager;
+import me.badbones69.vouchers.api.FileManager.Files;
+import me.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.api.enums.Messages;
+import me.badbones69.vouchers.api.events.RedeemVoucherCodeEvent;
+import me.badbones69.vouchers.api.objects.VoucherCode;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

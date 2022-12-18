@@ -1,6 +1,6 @@
-package com.badbones69.vouchers.api.enums;
+package me.badbones69.vouchers.api.enums;
 
-import com.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.api.CrazyManager;
 
 public enum Support {
     

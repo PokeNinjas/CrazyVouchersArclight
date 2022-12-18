@@ -1,10 +1,10 @@
-package com.badbones69.vouchers.api.objects;
+package me.badbones69.vouchers.api.objects;
 
-import com.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.api.CrazyManager;
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import com.badbones69.vouchers.Methods;
-import com.badbones69.vouchers.api.FileManager.Files;
-import com.badbones69.vouchers.api.enums.Messages;
+import me.badbones69.vouchers.Methods;
+import me.badbones69.vouchers.api.enums.Messages;
+import me.badbones69.vouchers.api.FileManager;
 import org.bukkit.Color;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -72,7 +72,7 @@ public class Voucher {
     public Voucher(String name) {
         this.name = name;
         this.usesArgs = false;
-        FileConfiguration config = Files.CONFIG.getFile();
+        FileConfiguration config = FileManager.Files.CONFIG.getFile();
         String path = "Vouchers." + name + ".";
         itemBuilder = new ItemBuilder()
         .setMaterial(config.getString(path + "Item", "Stone"))
@@ -345,7 +345,7 @@ public class Voucher {
     }
     
     private String getMessage(String path) {
-        FileConfiguration config = Files.CONFIG.getFile();
+        FileConfiguration config = FileManager.Files.CONFIG.getFile();
         String messageString;
 
         if (isList(path)) {
@@ -359,7 +359,7 @@ public class Voucher {
     }
     
     private boolean isList(String path) {
-        return Files.CONFIG.getFile().contains(path) && !Files.CONFIG.getFile().getStringList(path).isEmpty();
+        return FileManager.Files.CONFIG.getFile().contains(path) && !FileManager.Files.CONFIG.getFile().getStringList(path).isEmpty();
     }
 
 }

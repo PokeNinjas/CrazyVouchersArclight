@@ -1,10 +1,10 @@
-package com.badbones69.vouchers;
+package me.badbones69.vouchers;
 
-import com.badbones69.vouchers.api.CrazyManager;
-import com.badbones69.vouchers.api.enums.Version;
-import com.badbones69.vouchers.api.FileManager.Files;
-import com.badbones69.vouchers.api.enums.Messages;
-import com.badbones69.vouchers.controllers.FireworkDamageAPI;
+import me.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.api.enums.Version;
+import me.badbones69.vouchers.api.FileManager.Files;
+import me.badbones69.vouchers.api.enums.Messages;
+import me.badbones69.vouchers.controllers.FireworkDamageAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;

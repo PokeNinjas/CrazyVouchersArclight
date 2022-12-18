@@ -1,34 +1,31 @@
-package com.badbones69.vouchers.api.events;
+package me.badbones69.vouchers.api.events;
 
-import com.badbones69.vouchers.api.objects.Voucher;
+import me.badbones69.vouchers.api.objects.VoucherCode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class RedeemVoucherEvent extends Event implements Cancellable {
+public class RedeemVoucherCodeEvent extends Event implements Cancellable {
     
     private final Player player;
-    private final Voucher voucher;
-    private final String argument;
+    private final VoucherCode voucherCode;
     private Boolean cancelled;
     private static final HandlerList handlers = new HandlerList();
     
     /**
      *
-     * @param player The player using the voucher.
-     * @param voucher The voucher being used.
-     * @param argument The argument that is used. If no argument is used leave it as a blank string.
+     * @param player The player using the voucherCode.
+     * @param voucherCode The voucherCode being used.
      */
-    public RedeemVoucherEvent(Player player, Voucher voucher, String argument) {
+    public RedeemVoucherCodeEvent(Player player, VoucherCode voucherCode) {
         this.player = player;
-        this.voucher = voucher;
-        this.argument = argument;
+        this.voucherCode = voucherCode;
         this.cancelled = false;
     }
     
     /**
-     * @return The player redeeming the voucher.
+     * @return The player redeeming the voucherCode.
      */
     public Player getPlayer() {
         return player;
@@ -37,15 +34,8 @@ public class RedeemVoucherEvent extends Event implements Cancellable {
     /**
      * @return Voucher object used in the event.
      */
-    public Voucher getVoucher() {
-        return voucher;
-    }
-    
-    /**
-     * @return The argument used by the voucher. If not used it will be a blank string.
-     */
-    public String getArgument() {
-        return argument;
+    public VoucherCode getVoucherCode() {
+        return voucherCode;
     }
     
     @Override

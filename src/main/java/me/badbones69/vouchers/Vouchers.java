@@ -1,15 +1,15 @@
-package com.badbones69.vouchers;
+package me.badbones69.vouchers;
 
-import com.badbones69.vouchers.api.enums.Messages;
-import com.badbones69.vouchers.controllers.GUI;
-import com.badbones69.vouchers.api.FileManager;
-import com.badbones69.vouchers.api.FileManager.Files;
-import com.badbones69.vouchers.api.CrazyManager;
-import com.badbones69.vouchers.api.enums.Version;
-import com.badbones69.vouchers.commands.VoucherCommands;
-import com.badbones69.vouchers.commands.VoucherTab;
-import com.badbones69.vouchers.controllers.FireworkDamageAPI;
-import com.badbones69.vouchers.controllers.VoucherClick;
+import me.badbones69.vouchers.api.enums.Messages;
+import me.badbones69.vouchers.controllers.GUI;
+import me.badbones69.vouchers.api.FileManager;
+import me.badbones69.vouchers.api.FileManager.Files;
+import me.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.api.enums.Version;
+import me.badbones69.vouchers.commands.VoucherCommands;
+import me.badbones69.vouchers.commands.VoucherTab;
+import me.badbones69.vouchers.controllers.FireworkDamageAPI;
+import me.badbones69.vouchers.controllers.VoucherClick;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;

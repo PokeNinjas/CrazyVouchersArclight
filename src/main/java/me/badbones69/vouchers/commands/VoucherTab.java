@@ -1,7 +1,7 @@
-package com.badbones69.vouchers.commands;
+package me.badbones69.vouchers.commands;
 
-import com.badbones69.vouchers.controllers.GUI;
-import com.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.controllers.GUI;
+import me.badbones69.vouchers.api.CrazyManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
