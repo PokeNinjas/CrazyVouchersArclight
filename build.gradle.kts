@@ -1,36 +1,60 @@
 plugins {
-    java
+    `java-library`
+
+    `maven-publish`
 
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-group = "com.badbones69.vouchers"
-version = "1.9.10-SNAPSHOT"
-description = "Make Custom Vouchers just for your server!"
+project.group = "me.badbones69.vouchers"
+project.version = "${extra["plugin_version"]}"
+project.description = "Want to make a paper that can give you an axolotl with a pretty firework display, Look no further! "
 
 repositories {
-    mavenCentral()
+    /**
+     * Placeholders
+     */
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 
+    /**
+     * NBT API
+     */
     maven("https://repo.codemc.org/repository/maven-public/")
 
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    /**
+     * Paper Team
+     */
+    maven("https://repo.papermc.io/repository/maven-public/")
 
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    /**
+     * Everything else we need.
+     */
+    mavenCentral()
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT")
+    implementation("de.tr7zw", "nbt-data-api", "2.11.1")
 
-    compileOnly("me.clip:placeholderapi:2.10.10")
+    implementation("org.bstats", "bstats-bukkit", "3.0.0")
 
-    implementation("de.tr7zw:nbt-data-api:2.10.0")
+    compileOnly("org.spigotmc", "spigot-api", "${project.extra["minecraft_version"]}-R0.1-SNAPSHOT")
 
-    implementation("org.bstats:bstats-bukkit:3.0.0")
+    compileOnly("me.clip", "placeholderapi", "2.11.2") {
+        exclude(group = "org.spigotmc")
+        exclude(group = "org.bukkit")
+    }
 }
+
+val buildNumber: String? = System.getenv("BUILD_NUMBER")
+val buildVersion = "${project.version}-b$buildNumber-SNAPSHOT"
 
 tasks {
     shadowJar {
-        archiveFileName.set("${rootProject.name}-[1.8-1.17]-[v${rootProject.version}].jar")
+        if (buildNumber != null) {
+            archiveFileName.set("${rootProject.name}-${buildVersion}.jar")
+        } else {
+            archiveFileName.set("${rootProject.name}-${project.version}.jar")
+        }
 
         listOf(
             "de.tr7zw",
@@ -49,9 +73,9 @@ tasks {
         filesMatching("plugin.yml") {
             expand(
                 "name" to rootProject.name,
-                "group" to rootProject.group,
-                "version" to rootProject.version,
-                "description" to rootProject.description
+                "group" to project.group,
+                "version" to if (buildNumber != null) buildVersion else project.version,
+                "description" to project.description
             )
         }
     }
