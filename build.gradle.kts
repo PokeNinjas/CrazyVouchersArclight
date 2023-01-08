@@ -3,11 +3,11 @@ plugins {
 
     `maven-publish`
 
+    id("com.modrinth.minotaur") version "2.6.0"
+
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-project.group = "me.badbones69.vouchers"
-project.version = "${extra["plugin_version"]}"
 project.description = "Want to make a paper that can give you an axolotl with a pretty firework display, Look no further! "
 
 repositories {
@@ -45,16 +45,14 @@ dependencies {
     }
 }
 
-val buildNumber: String? = System.getenv("BUILD_NUMBER")
-val buildVersion = "${project.version}-b$buildNumber-SNAPSHOT"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 tasks {
     shadowJar {
-        if (buildNumber != null) {
-            archiveFileName.set("${rootProject.name}-${buildVersion}.jar")
-        } else {
-            archiveFileName.set("${rootProject.name}-${project.version}.jar")
-        }
+        archiveFileName.set("${rootProject.name}-${rootProject.version}.jar")
 
         listOf(
             "de.tr7zw",
@@ -64,19 +62,61 @@ tasks {
         }
     }
 
-    compileJava {
-        targetCompatibility = "8"
-        sourceCompatibility = "8"
+    modrinth {
+        token.set(System.getenv("MODRINTH_TOKEN"))
+        projectId.set("crazyvouchers")
+
+        versionName.set("${rootProject.name} ${rootProject.version}")
+        versionNumber.set("${rootProject.version}")
+
+        versionType.set("alpha")
+
+        uploadFile.set(shadowJar.get())
+
+        autoAddDependsOn.set(true)
+
+        gameVersions.addAll(listOf("1.8.8", "1.12.2", "1.16.5"))
+        loaders.addAll(listOf("spigot", "paper"))
+
+        //<h3>The first release for CrazyCrates on Modrinth! 🎉🎉🎉🎉🎉<h3><br> If we want a header.
+        changelog.set("""
+                <h2>Notice:</h2>
+                 <p>This is only for Legacy ( 1.8 - 1.16.5 ) Support, No new features will be added.</p>
+                <h2>Bug Fixes:</h2>
+                 <p>N/A</p>
+            """.trimIndent())
     }
 
     processResources {
         filesMatching("plugin.yml") {
             expand(
                 "name" to rootProject.name,
-                "group" to project.group,
-                "version" to if (buildNumber != null) buildVersion else project.version,
-                "description" to project.description
+                "group" to rootProject.group,
+                "version" to rootProject.version,
+                "description" to rootProject.description
             )
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven("https://repo.crazycrew.us/releases") {
+            name = "crazycrew"
+            //credentials(PasswordCredentials::class)
+            credentials {
+                username = System.getenv("REPOSITORY_USERNAME")
+                password = System.getenv("REPOSITORY_PASSWORD")
+            }
+        }
+    }
+
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "${rootProject.group}"
+            artifactId = rootProject.name.toLowerCase()
+            version = "${rootProject.version}"
+            from(components["java"])
         }
     }
 }

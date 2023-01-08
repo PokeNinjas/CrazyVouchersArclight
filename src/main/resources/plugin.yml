@@ -1,5 +1,6 @@
 name: Vouchers
 main: "${group}.Vouchers"
+author: BadBones69
 version: ${version}
 api-version: 1.13
 description: ${description}
