@@ -1,7 +1,6 @@
 package me.badbones69.vouchers;
 
-import me.badbones69.vouchers.api.CrazyManager;
-import me.badbones69.vouchers.api.enums.Version;
+import me.badbones69.vouchers.api.enums.ServerProtocol;
 import me.badbones69.vouchers.api.FileManager.Files;
 import me.badbones69.vouchers.api.enums.Messages;
 import me.badbones69.vouchers.controllers.FireworkDamageAPI;
@@ -24,9 +23,9 @@ import java.util.regex.Pattern;
 
 public class Methods {
     
+    private final static Vouchers plugin = Vouchers.getPlugin();
+    
     public final static Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F\\d]{6}");
-
-    private final static CrazyManager crazyManager = CrazyManager.getInstance();
     
     public static void removeItem(ItemStack item, Player player) {
         if (item.getAmount() <= 1) {
@@ -41,7 +40,7 @@ public class Methods {
     }
 
     public static String color(String message) {
-        if (Version.isNewer(Version.v1_15_R1)) {
+        if (ServerProtocol.isNewer(ServerProtocol.v1_15_R1)) {
             Matcher matcher = HEX_PATTERN.matcher(message);
             StringBuffer buffer = new StringBuffer();
 
@@ -80,10 +79,8 @@ public class Methods {
     }
     
     public static boolean isOnline(CommandSender sender, String name) {
-        for (Player player : crazyManager.getPlugin().getServer().getOnlinePlayers()) {
-            if (player.getName().equalsIgnoreCase(name)) {
-                return true;
-            }
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            if (player.getName().equalsIgnoreCase(name)) return true;
         }
 
         sender.sendMessage(Messages.NOT_ONLINE.getMessage());
@@ -125,17 +122,15 @@ public class Methods {
         fm.setPower(0);
         f.setFireworkMeta(fm);
         FireworkDamageAPI.addFirework(f);
-        crazyManager.getPlugin().getServer().getScheduler().scheduleSyncDelayedTask(crazyManager.getPlugin(), f :: detonate, 2);
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, f :: detonate, 2);
     }
     
     public static ItemStack addGlow(ItemStack item, boolean glowing) {
-        if (Version.isNewer(Version.v1_7_R3)) {
+        if (ServerProtocol.isAtLeast(ServerProtocol.v1_8_R1)) {
             if (glowing) {
                 if (item != null) {
                     if (item.hasItemMeta()) {
-                        if (item.getItemMeta().hasEnchants()) {
-                            return item;
-                        }
+                        if (item.getItemMeta().hasEnchants()) return item;
                     }
 
                     item.addUnsafeEnchantment(Enchantment.LUCK, 1);
@@ -180,9 +175,7 @@ public class Methods {
                                 int i = 0;
 
                                 for (String lore : one.getItemMeta().getLore()) {
-                                    if (!lore.equals(two.getItemMeta().getLore().get(i))) {
-                                        return false;
-                                    }
+                                    if (!lore.equals(two.getItemMeta().getLore().get(i))) return false;
 
                                     i++;
                                 }
@@ -197,5 +190,4 @@ public class Methods {
 
         return false;
     }
-    
 }

@@ -1,6 +1,6 @@
 package me.badbones69.vouchers.api.enums;
 
-import me.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.Vouchers;
 
 public enum Support {
     
@@ -9,7 +9,7 @@ public enum Support {
     
     private final String name;
 
-    private final CrazyManager crazyManager = CrazyManager.getInstance();
+    private final Vouchers plugin = Vouchers.getPlugin();
     
     Support(String name) {
         this.name = name;
@@ -20,6 +20,8 @@ public enum Support {
     }
     
     public boolean isPluginLoaded() {
-        return crazyManager.getPlugin().getServer().getPluginManager().getPlugin(name) != null;
+        if (plugin.getServer().getPluginManager().getPlugin(name) != null) return plugin.isEnabled();
+
+        return false;
     }
 }

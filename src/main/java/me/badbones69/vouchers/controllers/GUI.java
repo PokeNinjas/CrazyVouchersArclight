@@ -1,9 +1,10 @@
 package me.badbones69.vouchers.controllers;
 
+import me.badbones69.vouchers.Vouchers;
 import me.badbones69.vouchers.api.objects.Voucher;
 import me.badbones69.vouchers.Methods;
 import me.badbones69.vouchers.api.CrazyManager;
-import me.badbones69.vouchers.api.enums.Version;
+import me.badbones69.vouchers.api.enums.ServerProtocol;
 import me.badbones69.vouchers.api.objects.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +17,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 public class GUI implements Listener {
+
+    private static final Vouchers plugin = Vouchers.getPlugin();
+    private static final CrazyManager crazyManager = plugin.getCrazyManager();
     
     private static final String inventoryName = Methods.color("&8&l&nVouchers");
     private static final HashMap<UUID, Integer> playerPage = new HashMap<>();
@@ -67,7 +71,7 @@ public class GUI implements Listener {
                             }
                         }
 
-                        for (Voucher voucher : CrazyManager.getVouchers()) {
+                        for (Voucher voucher : crazyManager.getVouchers()) {
                             if (Methods.isSimilar(item, voucher.buildItem())) {
                                 player.getInventory().addItem(item);
                                 return;
@@ -109,13 +113,13 @@ public class GUI implements Listener {
     
     public static int getMaxPage() {
         int maxPage = 1;
-        int amount = CrazyManager.getVouchers().size();
+        int amount = crazyManager.getVouchers().size();
         for (; amount > 36; amount -= 36, maxPage++) ;
         return maxPage;
     }
     
     private static List<Voucher> getPageVouchers(Integer page) {
-        List<Voucher> list = CrazyManager.getVouchers();
+        List<Voucher> list = crazyManager.getVouchers();
         List<Voucher> vouchers = new ArrayList<>();
         if (page <= 0) page = 1;
         int max = 36;
@@ -140,7 +144,7 @@ public class GUI implements Listener {
     }
     
     private static void setDefaultItems(Player player, Inventory inv) {
-        boolean isNew = !Version.isLegacy();
+        boolean isNew = !ServerProtocol.isLegacy();
 
         for (int i : Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 45, 46, 47, 49, 51, 52, 53)) {
             inv.setItem(i, new ItemBuilder()

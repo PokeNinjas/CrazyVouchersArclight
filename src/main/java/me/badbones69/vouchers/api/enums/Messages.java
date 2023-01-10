@@ -80,9 +80,7 @@ public enum Messages {
             }
         }
 
-        if (saveFile) {
-            FileManager.Files.MESSAGES.saveFile();
-        }
+        if (saveFile) FileManager.Files.MESSAGES.saveFile();
     }
     
     public String getMessage() {
@@ -204,5 +202,4 @@ public enum Messages {
     private List<String> getDefaultListMessage() {
         return defaultListMessage;
     }
-    
 }

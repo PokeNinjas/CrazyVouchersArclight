@@ -1,6 +1,6 @@
 package me.badbones69.vouchers.controllers;
 
-import me.badbones69.vouchers.api.enums.Version;
+import me.badbones69.vouchers.api.enums.ServerProtocol;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -31,7 +31,7 @@ public class FireworkDamageAPI implements Listener {
      * @param firework The firework you want to add.
      */
     public static void addFirework(Entity firework) {
-        if (Version.isNewer(Version.v1_10_R1)) {
+        if (ServerProtocol.isNewer(ServerProtocol.v1_10_R1)) {
             fireworks.add(firework);
         }
     }

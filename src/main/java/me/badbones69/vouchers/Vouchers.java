@@ -1,32 +1,42 @@
 package me.badbones69.vouchers;
 
+import me.badbones69.vouchers.api.enums.ServerProtocol;
 import me.badbones69.vouchers.api.enums.Messages;
 import me.badbones69.vouchers.controllers.GUI;
 import me.badbones69.vouchers.api.FileManager;
 import me.badbones69.vouchers.api.FileManager.Files;
 import me.badbones69.vouchers.api.CrazyManager;
-import me.badbones69.vouchers.api.enums.Version;
 import me.badbones69.vouchers.commands.VoucherCommands;
 import me.badbones69.vouchers.commands.VoucherTab;
 import me.badbones69.vouchers.controllers.FireworkDamageAPI;
 import me.badbones69.vouchers.controllers.VoucherClick;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Vouchers extends JavaPlugin implements Listener {
-    
-    private final FileManager fileManager = FileManager.getInstance();
 
-    private final CrazyManager crazyManager = CrazyManager.getInstance();
+    private static Vouchers plugin;
+    private FileManager fileManager;
+    private CrazyManager crazyManager;
 
     @Override
     public void onEnable() {
+        plugin = this;
 
-        crazyManager.loadPlugin(this);
+        if (ServerProtocol.isNewer(ServerProtocol.v1_16_R3)) {
+            getLogger().warning("This jar only works on 1.16.X & below.");
+            getServer().getPluginManager().disablePlugin(this);
 
-        fileManager.logInfo(true).setup(this);
+            return;
+        }
+
+        fileManager = new FileManager();
+        crazyManager = new CrazyManager();
+
+        fileManager.logInfo(true).setup();
 
         if (!Files.DATA.getFile().contains("Players")) {
             Files.DATA.getFile().set("Players.Clear", null);
@@ -45,25 +55,34 @@ public class Vouchers extends JavaPlugin implements Listener {
         Messages.addMissingMessages();
 
         try {
-            if (Version.isNewer(Version.v1_10_R1)) {
-                pluginManager.registerEvents(new FireworkDamageAPI(this), this);
-            }
+            if (ServerProtocol.isNewer(ServerProtocol.v1_10_R1)) pluginManager.registerEvents(new FireworkDamageAPI(this), this);
         } catch (Exception ignored) {}
 
-        boolean metricsEnabled = Files.CONFIG.getFile().getBoolean("Settings.Toggle-Metrics");
+        FileConfiguration config = Files.CONFIG.getFile();
 
-        if (Files.CONFIG.getFile().getString("Settings.Toggle-Metrics") != null) {
-            if (metricsEnabled) new Metrics(this, 4536);
-        } else {
-            getLogger().warning("Metrics was automatically enabled.");
-            getLogger().warning("Please add Toggle-Metrics: false to the top of your config.yml");
-            getLogger().warning("https://github.com/Crazy-Crew/Vouchers/blob/master/Config1.12.2-Down.yml");
+        boolean metricsEnabled = config.getBoolean("Settings.Toggle-Metrics");
+        String metricsPath = config.getString("Settings.Toggle-Metrics");
 
-            getLogger().warning("An example if confused is linked above.");
+        if (metricsPath == null) {
+            config.set("Settings.Toggle-Metrics", true);
 
-            new Metrics(this, 4536);
+            Files.CONFIG.saveFile();
         }
 
+        if (metricsEnabled) new Metrics(this, 4536);
+
         crazyManager.load();
+    }
+
+    public static Vouchers getPlugin() {
+        return plugin;
+    }
+
+    public FileManager getFileManager() {
+        return fileManager;
+    }
+
+    public CrazyManager getCrazyManager() {
+        return crazyManager;
     }
 }

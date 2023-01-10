@@ -1,6 +1,6 @@
 package me.badbones69.vouchers.api.objects;
 
-import me.badbones69.vouchers.api.CrazyManager;
+import me.badbones69.vouchers.Vouchers;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.badbones69.vouchers.Methods;
 import me.badbones69.vouchers.api.enums.Messages;
@@ -14,30 +14,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Voucher {
+
+    private final Vouchers plugin = Vouchers.getPlugin();
     
     private final String name;
-    private Boolean usesArgs;
+    private boolean usesArgs;
     private final ItemBuilder itemBuilder;
     private boolean glowing;
     private final String usedMessage;
-    private final Boolean whitelistPermissionToggle;
+    private final boolean whitelistPermissionToggle;
     private final List<String> whitelistPermissions = new ArrayList<>();
     private List<String> whitelistCommands = new ArrayList<>();
     private String whitelistPermissionMessage;
-    private final Boolean whitelistWorldsToggle;
+    private final boolean whitelistWorldsToggle;
     private String whitelistWorldMessage;
     private final List<String> whitelistWorlds = new ArrayList<>();
     private List<String> whitelistWorldCommands = new ArrayList<>();
-    private final Boolean blacklistPermissionsToggle;
+    private final boolean blacklistPermissionsToggle;
     private String blacklistPermissionMessage;
     private List<String> blacklistCommands = new ArrayList<>();
     private List<String> blacklistPermissions = new ArrayList<>();
-    private final Boolean limiterToggle;
-    private Integer limiterLimit;
-    private final Boolean twoStepAuthentication;
-    private final Boolean soundToggle;
+    private final boolean limiterToggle;
+    private int limiterLimit;
+    private final boolean twoStepAuthentication;
+    private final boolean soundToggle;
     private final List<Sound> sounds = new ArrayList<>();
-    private final Boolean fireworkToggle;
+    private final boolean fireworkToggle;
     private final List<Color> fireworkColors = new ArrayList<>();
     private boolean isEdible;
     private List<String> commands = new ArrayList<>();
@@ -82,9 +84,7 @@ public class Voucher {
         .addItemFlags(config.getStringList(path + "Flags"));
         this.glowing = config.getBoolean(path + "Glowing");
 
-        if (itemBuilder.getName().toLowerCase().contains("%arg%")) {
-            this.usesArgs = true;
-        }
+        if (itemBuilder.getName().toLowerCase().contains("%arg%")) this.usesArgs = true;
 
         if (!usesArgs) {
             for (String lore : itemBuilder.getLore()) {
@@ -110,8 +110,7 @@ public class Voucher {
                     chanceCommands.add(voucherCommand);
                 }
             } catch (Exception e) {
-                CrazyManager crazyManager = CrazyManager.getInstance();
-                crazyManager.getPlugin().getLogger().info("An issue occurred when trying to use chance commands.");
+                plugin.getLogger().info("An issue occurred when trying to use chance commands.");
                 e.printStackTrace();
             }
         }
@@ -125,9 +124,7 @@ public class Voucher {
         if (config.contains(path + "Options.Permission.Whitelist-Permission")) {
             this.whitelistPermissionToggle = config.getBoolean(path + "Options.Permission.Whitelist-Permission.Toggle");
 
-            if (config.contains(path + "Options.Permission.Whitelist-Permission.Node")) {
-                whitelistPermissions.add("voucher." + config.getString(path + "Options.Permission.Whitelist-Permission.Node").toLowerCase());
-            }
+            if (config.contains(path + "Options.Permission.Whitelist-Permission.Node")) whitelistPermissions.add("voucher." + config.getString(path + "Options.Permission.Whitelist-Permission.Node").toLowerCase());
 
             whitelistPermissions.addAll(config.getStringList(path + "Options.Permission.Whitelist-Permission.Permissions").stream().map(String :: toLowerCase).collect(Collectors.toList()));
             this.whitelistCommands = config.getStringList(path + "Options.Permission.Whitelist-Permission.Commands");
@@ -212,7 +209,7 @@ public class Voucher {
         return name;
     }
     
-    public Boolean usesArguments() {
+    public boolean usesArguments() {
         return usesArgs;
     }
     
@@ -248,7 +245,7 @@ public class Voucher {
         return usedMessage;
     }
     
-    public Boolean useWhiteListPermissions() {
+    public boolean useWhiteListPermissions() {
         return whitelistPermissionToggle;
     }
     
@@ -264,7 +261,7 @@ public class Voucher {
         return whitelistPermissionMessage;
     }
     
-    public Boolean usesWhitelistWorlds() {
+    public boolean usesWhitelistWorlds() {
         return whitelistWorldsToggle;
     }
     
@@ -280,7 +277,7 @@ public class Voucher {
         return whitelistWorldCommands;
     }
     
-    public Boolean useBlackListPermissions() {
+    public boolean useBlackListPermissions() {
         return blacklistPermissionsToggle;
     }
     
@@ -296,19 +293,19 @@ public class Voucher {
         return blacklistCommands;
     }
     
-    public Boolean useLimiter() {
+    public boolean useLimiter() {
         return limiterToggle;
     }
     
-    public Integer getLimiterLimit() {
+    public int getLimiterLimit() {
         return limiterLimit;
     }
     
-    public Boolean useTwoStepAuthentication() {
+    public boolean useTwoStepAuthentication() {
         return twoStepAuthentication;
     }
     
-    public Boolean playSounds() {
+    public boolean playSounds() {
         return soundToggle;
     }
     
@@ -316,7 +313,7 @@ public class Voucher {
         return sounds;
     }
     
-    public Boolean useFirework() {
+    public boolean useFirework() {
         return fireworkToggle;
     }
     
@@ -361,5 +358,4 @@ public class Voucher {
     private boolean isList(String path) {
         return FileManager.Files.CONFIG.getFile().contains(path) && !FileManager.Files.CONFIG.getFile().getStringList(path).isEmpty();
     }
-
 }

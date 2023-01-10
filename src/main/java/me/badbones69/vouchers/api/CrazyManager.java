@@ -1,7 +1,6 @@
 package me.badbones69.vouchers.api;
 
-import me.badbones69.vouchers.Vouchers;
-import me.badbones69.vouchers.api.enums.Version;
+import me.badbones69.vouchers.api.enums.ServerProtocol;
 import me.badbones69.vouchers.api.objects.Voucher;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import me.badbones69.vouchers.api.objects.VoucherCode;
@@ -12,13 +11,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CrazyManager {
     
-    private final static ArrayList<Voucher> vouchers = new ArrayList<>();
-    private final static ArrayList<VoucherCode> voucherCodes = new ArrayList<>();
-
-    /**
-     * The Vouchers plugin.
-     */
-    private Vouchers plugin;
+    private final ArrayList<Voucher> vouchers = new ArrayList<>();
+    private final ArrayList<VoucherCode> voucherCodes = new ArrayList<>();
 
     /**
      * True if using 1.13+ material names and false if using lower versions.
@@ -26,53 +20,13 @@ public class CrazyManager {
     private boolean useNewMaterial;
 
     private boolean useNewSounds;
-
-    /**
-     * Get the Vouchers Plugin.
-     * @return The Vouchers Plugin object.
-     */
-    public Vouchers getPlugin() {
-        return plugin;
-    }
-
-    /**
-     * FileManager object.
-     */
-    private static final FileManager fileManager = FileManager.getInstance();
-
-    /**
-     * The instance of this class.
-     */
-    private static final CrazyManager instance = new CrazyManager();
-
-    /**
-     * Gets the instance of the CrazyCrates class.
-     *
-     * @return Instance of this class.
-     */
-    public static CrazyManager getInstance() {
-        return instance;
-    }
-
-    /**
-     * Get the file manager that controls all yml files.
-     *
-     * @return The FileManager that controls all yml files.
-     */
-    public static FileManager getFileManager() {
-        return fileManager;
-    }
-
-    public void loadPlugin(Vouchers plugin) {
-        this.plugin = plugin;
-    }
     
-    public CrazyManager load() {
+    public void load() {
         vouchers.clear();
         voucherCodes.clear();
 
-        useNewMaterial = Version.isNewer(Version.v1_12_R1);
-        useNewSounds = Version.isAtLeast(Version.v1_9_R1);
+        useNewMaterial = ServerProtocol.isNewer(ServerProtocol.v1_12_R1);
+        useNewSounds = ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1);
 
         // Used for when wanting to put in fake vouchers.
         // for(int i = 1; i <= 400; i++) vouchers.add(new Voucher(i));
@@ -87,92 +41,78 @@ public class CrazyManager {
             }
         }
 
-        return this;
     }
     
-    public static ArrayList<Voucher> getVouchers() {
+    public ArrayList<Voucher> getVouchers() {
         return vouchers;
     }
     
-    public static ArrayList<VoucherCode> getVoucherCodes() {
+    public ArrayList<VoucherCode> getVoucherCodes() {
         return voucherCodes;
     }
     
-    public static Voucher getVoucher(String voucherName) {
+    public Voucher getVoucher(String voucherName) {
         for (Voucher voucher : getVouchers()) {
-            if (voucher.getName().equalsIgnoreCase(voucherName)) {
-                return voucher;
-            }
+            if (voucher.getName().equalsIgnoreCase(voucherName)) return voucher;
         }
 
         return null;
     }
     
-    public static Boolean isVoucherName(String voucherName) {
+    public boolean isVoucherName(String voucherName) {
         for (Voucher voucher : getVouchers()) {
-            if (voucher.getName().equalsIgnoreCase(voucherName)) {
-                return true;
-            }
+            if (voucher.getName().equalsIgnoreCase(voucherName)) return true;
         }
 
         return false;
     }
     
-    public static VoucherCode getVoucherCode(String voucherName) {
+    public VoucherCode getVoucherCode(String voucherName) {
         for (VoucherCode voucher : getVoucherCodes()) {
-            if (voucher.getCode().equalsIgnoreCase(voucherName)) {
-                return voucher;
-            }
+            if (voucher.getCode().equalsIgnoreCase(voucherName)) return voucher;
         }
 
         return null;
     }
     
-    public static Boolean isVoucherCode(String voucherCode) {
+    public boolean isVoucherCode(String voucherCode) {
         for (VoucherCode voucher : getVoucherCodes()) {
             if (voucher.isEnabled()) {
                 if (voucher.isCaseSensitive()) {
-                    if (voucher.getCode().equals(voucherCode)) {
-                        return true;
-                    }
+                    if (voucher.getCode().equals(voucherCode)) return true;
                 } else {
-                    if (voucher.getCode().equalsIgnoreCase(voucherCode)) {
-                        return true;
-                    }
+                    if (voucher.getCode().equalsIgnoreCase(voucherCode)) return true;
                 }
             }
         }
+
         return false;
     }
     
-    public static Voucher getVoucherFromItem(ItemStack item) {
+    public Voucher getVoucherFromItem(ItemStack item) {
         try {
             NBTItem nbt = new NBTItem(item);
 
-            if (nbt.hasKey("voucher")) {
-                return getVoucher(nbt.getString("voucher"));
-            }
+            if (nbt.hasKey("voucher")) return getVoucher(nbt.getString("voucher"));
 
         } catch (Exception ignored) {}
         return null;
     }
     
-    public static String getArgument(ItemStack item, Voucher voucher) {
+    public String getArgument(ItemStack item, Voucher voucher) {
         if (voucher.usesArguments()) {
             // Checks to see if the voucher uses nbt tags.
             NBTItem nbt = new NBTItem(item);
 
             if (nbt.hasKey("voucher") && nbt.hasKey("argument")) {
-                if (nbt.getString("voucher").equalsIgnoreCase(voucher.getName())) {
-                    return nbt.getString("argument");
-                }
+                if (nbt.getString("voucher").equalsIgnoreCase(voucher.getName())) return nbt.getString("argument");
             }
         }
 
         return null;
     }
     
-    public static String replaceRandom(String string) {
+    public String replaceRandom(String string) {
         String newString = string;
 
         if (usesRandom(string)) {
@@ -216,11 +156,11 @@ public class CrazyManager {
         return Sound.valueOf(useNewSounds ? newSound : oldSound);
     }
     
-    private static boolean usesRandom(String string) {
+    private boolean usesRandom(String string) {
         return string.toLowerCase().contains("%random%:");
     }
     
-    private static long pickNumber(long min, long max) {
+    private long pickNumber(long min, long max) {
         try {
             // new Random() does not have a nextLong(long bound) method.
             return min + ThreadLocalRandom.current().nextLong(max - min);

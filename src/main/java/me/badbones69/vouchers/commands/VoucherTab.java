@@ -1,5 +1,6 @@
 package me.badbones69.vouchers.commands;
 
+import me.badbones69.vouchers.Vouchers;
 import me.badbones69.vouchers.controllers.GUI;
 import me.badbones69.vouchers.api.CrazyManager;
 import org.bukkit.command.Command;
@@ -12,7 +13,8 @@ import java.util.List;
 
 public class VoucherTab implements TabCompleter {
 
-    private final CrazyManager crazyManager = CrazyManager.getInstance();
+    private final Vouchers plugin = Vouchers.getPlugin();
+    private final CrazyManager crazyManager = plugin.getCrazyManager();
     
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String commandLabel, String[] args) {
@@ -30,7 +32,7 @@ public class VoucherTab implements TabCompleter {
             switch (args[0].toLowerCase()) {
                 case "redeem":
                     // Only want admins to be able to see all the voucher codes.
-                    if (hasPermission(sender, "admin")) CrazyManager.getVoucherCodes().forEach(voucherCode -> completions.add(voucherCode.getCode()));
+                    if (hasPermission(sender, "admin")) crazyManager.getVoucherCodes().forEach(voucherCode -> completions.add(voucherCode.getCode()));
 
                     break;
                 case "open":
@@ -39,7 +41,7 @@ public class VoucherTab implements TabCompleter {
                     break;
                 case "give":
                 case "giveall":
-                    if (hasPermission(sender, "admin")) CrazyManager.getVouchers().forEach(voucher -> completions.add(voucher.getName()));
+                    if (hasPermission(sender, "admin")) crazyManager.getVouchers().forEach(voucher -> completions.add(voucher.getName()));
 
                     break;
             }
@@ -53,7 +55,7 @@ public class VoucherTab implements TabCompleter {
             return StringUtil.copyPartialMatches(args[2], completions, new ArrayList<>());
         } else if (args.length == 4) { // /voucher arg0 arg1 arg2
             if (args[0].equalsIgnoreCase("give")) {
-                if (hasPermission(sender, "admin")) crazyManager.getPlugin().getServer().getOnlinePlayers().forEach(player -> completions.add(player.getName()));
+                if (hasPermission(sender, "admin")) plugin.getServer().getOnlinePlayers().forEach(player -> completions.add(player.getName()));
             }
 
             return StringUtil.copyPartialMatches(args[3], completions, new ArrayList<>());
@@ -64,5 +66,4 @@ public class VoucherTab implements TabCompleter {
     private boolean hasPermission(CommandSender sender, String node) {
         return sender.hasPermission("voucher." + node) || sender.hasPermission("voucher.admin");
     }
-    
 }

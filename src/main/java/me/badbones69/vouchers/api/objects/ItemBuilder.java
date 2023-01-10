@@ -1,8 +1,9 @@
 package me.badbones69.vouchers.api.objects;
 
 import me.badbones69.vouchers.Methods;
+import me.badbones69.vouchers.Vouchers;
 import me.badbones69.vouchers.api.CrazyManager;
-import me.badbones69.vouchers.api.enums.Version;
+import me.badbones69.vouchers.api.enums.ServerProtocol;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -265,7 +266,8 @@ public class ItemBuilder {
         return material;
     }
 
-    private final CrazyManager crazyManager = CrazyManager.getInstance();
+    private final Vouchers plugin = Vouchers.getPlugin();
+    private final CrazyManager crazyManager = plugin.getCrazyManager();
 
     /**
      * Set the type of item and its metadata in the builder.
@@ -330,9 +332,7 @@ public class ItemBuilder {
 
         Material matchedMaterial = Material.matchMaterial(material);
 
-        if (matchedMaterial != null) { // Sets the material.
-            this.material = matchedMaterial;
-        }
+        if (matchedMaterial != null) this.material = matchedMaterial;
 
         switch (this.material.name()) {
             case "PLAYER_HEAD":
@@ -359,9 +359,7 @@ public class ItemBuilder {
         }
 
         // 1.13+ added different banner names and so this is quicker than listing every banner color.
-        if (this.material.name().contains("BANNER")) {
-            this.isBanner = true;
-        }
+        if (this.material.name().contains("BANNER")) this.isBanner = true;
 
         return this;
     }
@@ -397,9 +395,7 @@ public class ItemBuilder {
      * @return The ItemBuilder with updated info.
      */
     public ItemBuilder setName(String name) {
-        if (name != null) {
-            this.name = Methods.color(name);
-        }
+        if (name != null) this.name = Methods.color(name);
 
         return this;
     }
@@ -480,9 +476,7 @@ public class ItemBuilder {
      * @return The ItemBuilder with updated info.
      */
     public ItemBuilder addLore(String lore) {
-        if (lore != null) {
-            this.lore.add(Methods.color(lore));
-        }
+        if (lore != null) this.lore.add(Methods.color(lore));
 
         return this;
     }
@@ -615,9 +609,7 @@ public class ItemBuilder {
                 if (split[0].equalsIgnoreCase(pattern.name()) || split[0].equalsIgnoreCase(pattern.getIdentifier())) {
                     DyeColor color = getDyeColor(split[1]);
 
-                    if (color != null) {
-                        addPattern(new Pattern(color, pattern));
-                    }
+                    if (color != null) addPattern(new Pattern(color, pattern));
 
                     break;
                 }
@@ -739,9 +731,7 @@ public class ItemBuilder {
      * @return The ItemBuilder with updated info.
      */
     public ItemBuilder setEnchantments(HashMap<Enchantment, Integer> enchantments) {
-        if (enchantments != null) {
-            this.enchantments = enchantments;
-        }
+        if (enchantments != null) this.enchantments = enchantments;
 
         return this;
     }
@@ -843,9 +833,7 @@ public class ItemBuilder {
             try {
                 ItemFlag itemFlag = ItemFlag.valueOf(flagString.toUpperCase());
 
-                if (itemFlag != null) {
-                    addItemFlag(itemFlag);
-                }
+                if (itemFlag != null) addItemFlag(itemFlag);
 
             } catch (Exception ignored) {}
         }
@@ -893,29 +881,23 @@ public class ItemBuilder {
             itemMeta.setDisplayName(getUpdatedName());
             itemMeta.setLore(getUpdatedLore());
 
-            if (Version.isOlder(Version.v1_9_R1)) {
+            if (ServerProtocol.isOlder(ServerProtocol.v1_9_R1)) {
                 if (isHead && !isHash && player != null && !player.equals("")) {
                     SkullMeta skullMeta = (SkullMeta) itemMeta;
                     skullMeta.setOwner(player);
                 }
             }
 
-            if (Version.isAtLeast(Version.v1_10_R1)) {
-                itemMeta.setUnbreakable(unbreakable);
-            }
+            if (ServerProtocol.isAtLeast(ServerProtocol.v1_10_R1)) itemMeta.setUnbreakable(unbreakable);
 
             item.setDurability((short) damage);
 
             if (isPotion && (potionType != null || potionColor != null)) {
                 PotionMeta potionMeta = (PotionMeta) itemMeta;
 
-                if (potionType != null) {
-                    potionMeta.setBasePotionData(new PotionData(potionType));
-                }
+                if (potionType != null) potionMeta.setBasePotionData(new PotionData(potionType));
 
-                if (potionColor != null) {
-                    potionMeta.setColor(potionColor);
-                }
+                if (potionColor != null) potionMeta.setColor(potionColor);
             }
 
             if (isLeatherArmor && armorColor != null) {
@@ -944,27 +926,21 @@ public class ItemBuilder {
             NBTItem nbt = new NBTItem(item);
 
             if (isHead) {
-                if (!isHash && player != null && !player.equals("") && Version.isAtLeast(Version.v1_9_R1)) {
-                    nbt.setString("SkullOwner", player);
-                }
+                if (!isHash && player != null && !player.equals("") && ServerProtocol.isAtLeast(ServerProtocol.v1_9_R1)) nbt.setString("SkullOwner", player);
             }
 
             if (isMobEgg) {
-                if (entityType != null) {
-                    nbt.addCompound("EntityTag").setString("id", "minecraft:" + entityType.name());
-                }
+                if (entityType != null) nbt.addCompound("EntityTag").setString("id", "minecraft:" + entityType.name());
             }
 
-            if (Version.isOlder(Version.v1_11_R1)) {
+            if (ServerProtocol.isOlder(ServerProtocol.v1_11_R1)) {
                 if (unbreakable) {
                     nbt.setBoolean("Unbreakable", true);
                     nbt.setInteger("HideFlags", 4);
                 }
             }
 
-            if (!crateName.isEmpty()) {
-                nbt.setString("CrazyCrates-Crate", crateName);
-            }
+            if (!crateName.isEmpty()) nbt.setString("CrazyCrates-Crate", crateName);
 
             return nbt.getItem();
         } else {
@@ -1000,9 +976,7 @@ public class ItemBuilder {
             try {
                 if (item != null) {
                     if (item.hasItemMeta()) {
-                        if (item.getItemMeta().hasEnchants()) {
-                            return item;
-                        }
+                        if (item.getItemMeta().hasEnchants()) return item;
                     }
 
                     item.addUnsafeEnchantment(Enchantment.LUCK, 1);

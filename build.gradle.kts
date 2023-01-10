@@ -8,8 +8,6 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-project.description = "Want to make a paper that can give you an axolotl with a pretty firework display, Look no further! "
-
 repositories {
     /**
      * Placeholders
@@ -52,13 +50,13 @@ java {
 
 tasks {
     shadowJar {
-        archiveFileName.set("${rootProject.name}-${rootProject.version}.jar")
+        archiveFileName.set("${rootProject.name}-${project.version}.jar")
 
         listOf(
             "de.tr7zw",
             "org.bstats"
         ).forEach {
-            relocate(it, "${rootProject.group}.plugin.lib.$it")
+            relocate(it, "${project.group}.plugin.lib.$it")
         }
     }
 
@@ -66,8 +64,8 @@ tasks {
         token.set(System.getenv("MODRINTH_TOKEN"))
         projectId.set("crazyvouchers")
 
-        versionName.set("${rootProject.name} ${rootProject.version}")
-        versionNumber.set("${rootProject.version}")
+        versionName.set("${rootProject.name} ${project.version}")
+        versionNumber.set("${project.version}")
 
         versionType.set("alpha")
 
@@ -80,9 +78,9 @@ tasks {
 
         //<h3>The first release for CrazyCrates on Modrinth! 🎉🎉🎉🎉🎉<h3><br> If we want a header.
         changelog.set("""
-                <h2>Notice:</h2>
+                <h4>Notice:</h4>
                  <p>This is only for Legacy ( 1.8 - 1.16.5 ) Support, No new features will be added.</p>
-                <h2>Bug Fixes:</h2>
+                <h4>Bug Fixes:</h4>
                  <p>N/A</p>
             """.trimIndent())
     }
@@ -91,9 +89,9 @@ tasks {
         filesMatching("plugin.yml") {
             expand(
                 "name" to rootProject.name,
-                "group" to rootProject.group,
-                "version" to rootProject.version,
-                "description" to rootProject.description,
+                "group" to project.group,
+                "version" to project.version,
+                "description" to project.description,
                 "website" to "https://modrinth.com/plugin/crazyvouchers"
             )
         }
@@ -114,9 +112,9 @@ publishing {
 
     publications {
         create<MavenPublication>("maven") {
-            groupId = "${rootProject.group}"
+            groupId = "${project.group}"
             artifactId = rootProject.name.toLowerCase()
-            version = "${rootProject.version}"
+            version = "${project.version}"
             from(components["java"])
         }
     }
