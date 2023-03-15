@@ -22,7 +22,10 @@ repositories {
     /**
      * Paper Team
      */
-    maven("https://repo.papermc.io/repository/maven-public/")
+//    maven("https://repo.papermc.io/repository/maven-public/")
+
+    // Spigot
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
 
     /**
      * Everything else we need.
@@ -35,7 +38,9 @@ dependencies {
 
     implementation("org.bstats", "bstats-bukkit", "3.0.0")
 
-    compileOnly("io.papermc.paper", "paper-api", "${project.extra["minecraft_version"]}-R0.1-SNAPSHOT")
+//    compileOnly("io.papermc.paper", "paper-api", "${project.extra["minecraft_version"]}-R0.1-SNAPSHOT")
+
+    compileOnly("org.spigotmc", "spigot-api", "1.19.3-R0.1-SNAPSHOT")
 
     compileOnly("me.clip", "placeholderapi", "2.11.2") {
         exclude(group = "org.spigotmc")
