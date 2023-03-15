@@ -1,7 +1,7 @@
 package com.badbones69.crazyvouchers.api;
 
 import com.badbones69.crazyvouchers.api.objects.Voucher;
-import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NBTItem;
 import com.badbones69.crazyvouchers.api.objects.VoucherCode;
 import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;

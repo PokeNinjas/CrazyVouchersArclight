@@ -68,7 +68,6 @@ public class CrazyVouchers extends JavaPlugin implements Listener {
 
         FileConfiguration config = Files.CONFIG.getFile();
 
-        boolean metricsEnabled = Files.CONFIG.getFile().getBoolean("Settings.Toggle-Metrics");
         String metricsPath = Files.CONFIG.getFile().getString("Settings.Toggle-Metrics");
 
         if (metricsPath == null) {
@@ -84,8 +83,6 @@ public class CrazyVouchers extends JavaPlugin implements Listener {
 
             Files.CONFIG.saveFile();
         }
-
-        if (metricsEnabled) new Metrics(this, 4536);
 
         checkUpdate(null, true);
 

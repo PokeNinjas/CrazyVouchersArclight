@@ -27,6 +27,9 @@ repositories {
     // Spigot
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
 
+    // Item NBT api
+    maven("https://repo.codemc.org/repository/maven-public/")
+
     /**
      * Everything else we need.
      */
@@ -34,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    implementation("de.tr7zw", "nbt-data-api", "2.11.0")
+    implementation("de.tr7zw", "item-nbt-api-plugin", "2.11.1")
 
     implementation("org.bstats", "bstats-bukkit", "3.0.0")
 
