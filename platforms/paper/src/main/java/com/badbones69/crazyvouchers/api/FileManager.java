@@ -25,7 +25,7 @@ public class FileManager {
      * Sets up the plugin and loads all necessary files.
      */
     public void setup() {
-        File oldFolder = new File(plugin.getServer().getPluginsFolder() + "/Vouchers");
+        File oldFolder = new File("plugins" + "/" + "Vouchers");
 
         if (oldFolder.exists() && !plugin.getDataFolder().exists()) {
             plugin.getLogger().warning("Renaming " + oldFolder.getPath() + " directory to " + plugin.getDataFolder().getPath());

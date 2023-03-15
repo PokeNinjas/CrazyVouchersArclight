@@ -63,7 +63,6 @@ public class CrazyVouchers extends JavaPlugin implements Listener {
 
         FileConfiguration config = Files.CONFIG.getFile();
 
-        boolean metricsEnabled = Files.CONFIG.getFile().getBoolean("Settings.Toggle-Metrics");
         String metricsPath = Files.CONFIG.getFile().getString("Settings.Toggle-Metrics");
 
         String version = config.getString("Settings.Config-Version");
@@ -97,12 +96,6 @@ public class CrazyVouchers extends JavaPlugin implements Listener {
             plugin.getLogger().warning("If you have any issues, Please contact Discord Support.");
             plugin.getLogger().warning("https://discord.gg/crazycrew");
             plugin.getLogger().warning("========================================================================");
-        }
-
-        if (metricsEnabled) {
-            MetricsHandler metricsHandler = new MetricsHandler();
-
-            metricsHandler.start();
         }
 
         checkUpdate();

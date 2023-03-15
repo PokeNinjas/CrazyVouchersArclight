@@ -1,7 +1,7 @@
 package com.badbones69.crazyvouchers.api.objects;
 
 import com.badbones69.crazyvouchers.CrazyVouchers;
-import de.tr7zw.changeme.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.NBTItem;
 import com.badbones69.crazyvouchers.Methods;
 import com.badbones69.crazyvouchers.api.FileManager.Files;
 import com.badbones69.crazyvouchers.api.enums.Messages;
