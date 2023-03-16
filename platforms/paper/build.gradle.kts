@@ -12,13 +12,20 @@ repositories {
      * Placeholders
      */
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+
+    // Spigot
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+
+    // Item NBT api
+    maven("https://repo.codemc.org/repository/maven-public/")
 }
 
 dependencies {
-    implementation(libs.nbt.api)
+    implementation("de.tr7zw", "item-nbt-api-plugin", "2.11.1")
     implementation(libs.bstats.bukkit)
 
-    compileOnly(libs.papermc)
+//    compileOnly(libs.papermc)
+    compileOnly("org.spigotmc", "spigot-api", "1.19.3-R0.1-SNAPSHOT")
 
     compileOnly(libs.placeholder.api)
 }
